@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Sparkles, Video, Wand2 } from "lucide-react";
+import { Sparkles, Image as ImageIcon, Wand2 } from "lucide-react";
 
 export default function CreatePage() {
   const [prompt, setPrompt] = useState("");
@@ -25,18 +25,19 @@ export default function CreatePage() {
     setTimeout(() => {
       const aiImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${ratio.width}&height=${ratio.height}&nologo=true&seed=${Date.now()}`;
 
-      const newVideo = {
+      const newImage = {
         id: Date.now(),
         prompt: prompt,
         style: selectedStyle,
         ratio: selectedRatio,
         date: new Date().toLocaleDateString(),
-        thumbnail: aiImageUrl
+        thumbnail: aiImageUrl,
+        type: 'image'
       };
       
-      const oldVideos = JSON.parse(localStorage.getItem('bmy_videos') || '[]');
-      oldVideos.unshift(newVideo);
-      localStorage.setItem('bmy_videos', JSON.stringify(oldVideos));
+      const oldImages = JSON.parse(localStorage.getItem('bmy_videos') || '[]');
+      oldImages.unshift(newImage);
+      localStorage.setItem('bmy_videos', JSON.stringify(oldImages));
       
       window.location.href = '/library';
     }, 3000);
@@ -45,11 +46,11 @@ export default function CreatePage() {
   return (
     <div className="min-h-screen bg-yt-bg pb-24 pt-16 px-4">
       <h1 className="text-2xl font-bold text-yt-text mb-6 flex items-center gap-2">
-        <Wand2 className="text-yt-red" /> Create AI Video
+        <Wand2 className="text-yt-red" /> Create AI Image
       </h1>
       {/* Prompt Text Area */}
       <div className="mb-6">
-        <label className="text-yt-textSec text-sm mb-2 block">Describe your video:</label>
+        <label className="text-yt-textSec text-sm mb-2 block">Describe your image:</label>
         <textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
@@ -95,8 +96,8 @@ export default function CreatePage() {
               <div className="flex flex-col items-center gap-1">
                 <div className={`border-2 ${selectedRatio === ratio.value ? 'border-white' : 'border-yt-textSec'} rounded-sm ${
                   ratio.value === 'square' ? 'w-6 h-6' : 
-                  ratio.value === 'portrait' ? 'w-4 h-6' : 'w-6 h-4'
-                }`}></div>                <span>{ratio.name}</span>
+                  ratio.value === 'portrait' ? 'w-4 h-6' : 'w-6 h-4'                }`}></div>
+                <span>{ratio.name}</span>
               </div>
             </button>
           ))}
@@ -112,12 +113,12 @@ export default function CreatePage() {
         {isGenerating ? (
           <>
             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-            Generating Magic...
+            Generating Image...
           </>
         ) : (
           <>
             <Sparkles className="w-5 h-5" />
-            Generate Video
+            Generate Image
           </>
         )}
       </button>
@@ -125,8 +126,8 @@ export default function CreatePage() {
       {isGenerating && (
         <div className="mt-8 w-full aspect-video bg-yt-surface rounded-xl flex items-center justify-center border border-yt-border">
           <div className="text-center">
-            <Video className="w-12 h-12 text-yt-textSec mx-auto mb-2 animate-pulse" />
-            <p className="text-yt-textSec text-sm">AI is painting your video...</p>
+            <ImageIcon className="w-12 h-12 text-yt-textSec mx-auto mb-2 animate-pulse" />
+            <p className="text-yt-textSec text-sm">AI is creating your image...</p>
           </div>
         </div>
       )}
