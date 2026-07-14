@@ -6,21 +6,30 @@ import { Sparkles, Video, Wand2 } from "lucide-react";
 export default function CreatePage() {
   const [prompt, setPrompt] = useState("");
   const [selectedStyle, setSelectedStyle] = useState("Cinematic");
+  const [selectedRatio, setSelectedRatio] = useState("square");
   const [isGenerating, setIsGenerating] = useState(false);
 
   const styles = ["Cinematic", "Anime", "Realistic", "3D Render", "Watercolor"];
+  const ratios = [
+    { name: "Square", value: "square", width: 512, height: 512 },
+    { name: "Portrait", value: "portrait", width: 512, height: 768 },
+    { name: "Landscape", value: "landscape", width: 768, height: 512 },
+  ];
 
   const handleGenerate = () => {
     if (!prompt) return;
     setIsGenerating(true);
     
+    const ratio = ratios.find(r => r.value === selectedRatio);
+    
     setTimeout(() => {
-      const aiImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=512&height=512&nologo=true&seed=${Date.now()}`;
+      const aiImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${ratio.width}&height=${ratio.height}&nologo=true&seed=${Date.now()}`;
 
       const newVideo = {
         id: Date.now(),
         prompt: prompt,
         style: selectedStyle,
+        ratio: selectedRatio,
         date: new Date().toLocaleDateString(),
         thumbnail: aiImageUrl
       };
@@ -38,7 +47,7 @@ export default function CreatePage() {
       <h1 className="text-2xl font-bold text-yt-text mb-6 flex items-center gap-2">
         <Wand2 className="text-yt-red" /> Create AI Video
       </h1>
-
+      {/* Prompt Text Area */}
       <div className="mb-6">
         <label className="text-yt-textSec text-sm mb-2 block">Describe your video:</label>
         <textarea
@@ -49,7 +58,8 @@ export default function CreatePage() {
         />
       </div>
 
-      <div className="mb-8">
+      {/* Style Selection */}
+      <div className="mb-6">
         <label className="text-yt-textSec text-sm mb-2 block">Choose Style:</label>
         <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2">
           {styles.map((style) => (
@@ -68,6 +78,32 @@ export default function CreatePage() {
         </div>
       </div>
 
+      {/* Aspect Ratio Selection */}
+      <div className="mb-8">
+        <label className="text-yt-textSec text-sm mb-2 block">Aspect Ratio:</label>
+        <div className="flex gap-3">
+          {ratios.map((ratio) => (
+            <button
+              key={ratio.value}
+              onClick={() => setSelectedRatio(ratio.value)}
+              className={`flex-1 px-4 py-3 rounded-lg text-sm font-medium transition active:scale-95 border ${
+                selectedRatio === ratio.value
+                  ? "bg-yt-red text-white border-yt-red"
+                  : "bg-yt-surface text-yt-text border-yt-border"
+              }`}
+            >
+              <div className="flex flex-col items-center gap-1">
+                <div className={`border-2 ${selectedRatio === ratio.value ? 'border-white' : 'border-yt-textSec'} rounded-sm ${
+                  ratio.value === 'square' ? 'w-6 h-6' : 
+                  ratio.value === 'portrait' ? 'w-4 h-6' : 'w-6 h-4'
+                }`}></div>                <span>{ratio.name}</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Generate Button */}
       <button
         onClick={handleGenerate}
         disabled={isGenerating || !prompt}
