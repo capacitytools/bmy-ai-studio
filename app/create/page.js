@@ -1,4 +1,4 @@
-"use client"; // This magic word allows us to use text inputs and buttons
+"use client";
 
 import { useState } from "react";
 import { Sparkles, Video, Wand2 } from "lucide-react";
@@ -15,36 +15,22 @@ export default function CreatePage() {
     setIsGenerating(true);
     
     setTimeout(() => {
-      // 1. Create a special AI link based on your text prompt
       const aiImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=512&height=512&nologo=true&seed=${Date.now()}`;
 
-      // 2. Create the video data with the real AI image
       const newVideo = {
         id: Date.now(),
         prompt: prompt,
         style: selectedStyle,
         date: new Date().toLocaleDateString(),
-        thumbnail: aiImageUrl // <--- We are saving the real AI image here!
+        thumbnail: aiImageUrl
       };
       
-      // 3. Save it to the phone's memory
       const oldVideos = JSON.parse(localStorage.getItem('bmy_videos') || '[]');
       oldVideos.unshift(newVideo);
       localStorage.setItem('bmy_videos', JSON.stringify(oldVideos));
       
-      // 4. Send the user to the Library
       window.location.href = '/library';
-    }, 3000); // Takes 3 seconds to generate
-  };
-      
-      // 2. Save it to the phone's memory (localStorage)
-      const oldVideos = JSON.parse(localStorage.getItem('bmy_videos') || '[]');
-      oldVideos.unshift(newVideo); // Add new video to the top
-      localStorage.setItem('bmy_videos', JSON.stringify(oldVideos));
-      
-      // 3. Send the user to the Library to see it!
-      window.location.href = '/library';
-    }, 2000);
+    }, 3000);
   };
 
   return (
@@ -53,7 +39,6 @@ export default function CreatePage() {
         <Wand2 className="text-yt-red" /> Create AI Video
       </h1>
 
-      {/* The Text Box for the Prompt */}
       <div className="mb-6">
         <label className="text-yt-textSec text-sm mb-2 block">Describe your video:</label>
         <textarea
@@ -64,7 +49,6 @@ export default function CreatePage() {
         />
       </div>
 
-      {/* Style Selection Buttons */}
       <div className="mb-8">
         <label className="text-yt-textSec text-sm mb-2 block">Choose Style:</label>
         <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2">
@@ -84,7 +68,6 @@ export default function CreatePage() {
         </div>
       </div>
 
-      {/* The Big Generate Button */}
       <button
         onClick={handleGenerate}
         disabled={isGenerating || !prompt}
@@ -103,7 +86,6 @@ export default function CreatePage() {
         )}
       </button>
 
-      {/* The Video Preview Area */}
       {isGenerating && (
         <div className="mt-8 w-full aspect-video bg-yt-surface rounded-xl flex items-center justify-center border border-yt-border">
           <div className="text-center">
