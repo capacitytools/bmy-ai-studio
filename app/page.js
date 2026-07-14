@@ -1,8 +1,5 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
-import { Search, Mic, Sparkles, Home, PlusSquare, Library, User, Video, Mic2, FileText, Captions, Image, Music, Wand2, Palette, Menu, X } from "lucide-react";
+import { Search, Mic, Sparkles, Home, PlusSquare, Library, User, Video, Mic2, FileText, Captions, Image, Music, Wand2, Palette } from "lucide-react";
 
 const tools = [
   { title: "AI Image Generator", badge: "Free", color: "from-blue-900 to-purple-900", icon: Image, link: "/create" },
@@ -16,11 +13,8 @@ const tools = [
 ];
 
 export default function HomePage() {
-  const [showMenu, setShowMenu] = useState(false);
-
   return (
     <div className="min-h-screen bg-yt-bg pb-20">
-      {/* Top Bar */}
       <header className="fixed top-0 left-0 right-0 h-14 bg-yt-bg flex items-center justify-between px-4 z-50 border-b border-yt-border">
         <div className="flex items-center gap-2">
           <div className="bg-yt-red text-white p-1.5 rounded-lg">
@@ -38,7 +32,6 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="pt-16 px-4">
         <div className="flex gap-3 overflow-x-auto pb-4 mb-4 no-scrollbar">
           {["All", "Images", "Video", "Audio", "Writing", "Tools"].map((cat, i) => (
@@ -47,7 +40,8 @@ export default function HomePage() {
               className={`whitespace-nowrap px-4 py-2 rounded-lg text-sm font-medium ${
                 i === 0 ? "bg-white text-black" : "bg-yt-surface text-yt-text"
               }`}
-            >              {cat}
+            >
+              {cat}
             </button>
           ))}
         </div>
@@ -71,7 +65,6 @@ export default function HomePage() {
         </div>
       </main>
 
-      {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 h-16 bg-yt-bg border-t border-yt-border flex items-center justify-around z-50">
         <Link href="/" className="flex flex-col items-center gap-1 text-yt-text">
           <Home className="w-6 h-6" />
@@ -81,88 +74,15 @@ export default function HomePage() {
           <PlusSquare className="w-6 h-6" />
           <span className="text-[10px]">Create</span>
         </Link>
-        <button 
-          onClick={() => setShowMenu(true)}
-          className="flex flex-col items-center gap-1 text-yt-textSec"
-        >
-          <Menu className="w-6 h-6" />
-          <span className="text-[10px]">Menu</span>
-        </button>
+        <Link href="/library" className="flex flex-col items-center gap-1 text-yt-textSec">
+          <Library className="w-6 h-6" />
+          <span className="text-[10px]">Library</span>
+        </Link>
         <Link href="/profile" className="flex flex-col items-center gap-1 text-yt-textSec">
           <User className="w-6 h-6" />
           <span className="text-[10px]">Profile</span>
         </Link>
       </nav>
-
-      {/* Dropdown Menu Modal */}
-      {showMenu && (
-        <div className="fixed inset-0 z-[60] flex items-end justify-center">          {/* Dark Background Overlay */}
-          <div 
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm" 
-            onClick={() => setShowMenu(false)}
-          ></div>
-          
-          {/* Menu Content */}
-          <div className="relative w-full bg-yt-surface rounded-t-3xl p-6 border-t border-yt-border">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-yt-text text-xl font-bold">Menu</h2>
-              <button 
-                onClick={() => setShowMenu(false)}
-                className="p-2 bg-yt-hover rounded-full"
-              >
-                <X className="w-5 h-5 text-yt-text" />
-              </button>
-            </div>
-            
-            <div className="space-y-3">
-              <Link 
-                href="/library" 
-                className="flex items-center gap-4 p-4 bg-yt-bg rounded-xl active:bg-yt-hover transition"
-                onClick={() => setShowMenu(false)}
-              >
-                <Library className="w-6 h-6 text-yt-text" />
-                <div>
-                  <p className="text-yt-text font-medium">My Library</p>
-                  <p className="text-yt-textSec text-xs">View your creations</p>
-                </div>
-              </Link>
-              
-              <Link 
-                href="/create" 
-                className="flex items-center gap-4 p-4 bg-yt-bg rounded-xl active:bg-yt-hover transition"
-                onClick={() => setShowMenu(false)}
-              >
-                <PlusSquare className="w-6 h-6 text-yt-red" />
-                <div>
-                  <p className="text-yt-text font-medium">Create New</p>
-                  <p className="text-yt-textSec text-xs">Generate AI content</p>
-                </div>
-              </Link>
-              
-              <Link 
-                href="/profile" 
-                className="flex items-center gap-4 p-4 bg-yt-bg rounded-xl active:bg-yt-hover transition"
-                onClick={() => setShowMenu(false)}
-              >
-                <User className="w-6 h-6 text-yt-text" />
-                <div>                  <p className="text-yt-text font-medium">Profile</p>
-                  <p className="text-yt-textSec text-xs">Account settings</p>
-                </div>
-              </Link>
-              
-              <div className="border-t border-yt-border my-2"></div>
-              
-              <button className="w-full flex items-center gap-4 p-4 bg-yt-bg rounded-xl active:bg-yt-hover transition text-left">
-                <Sparkles className="w-6 h-6 text-yellow-500" />
-                <div>
-                  <p className="text-yt-text font-medium">Upgrade to Pro</p>
-                  <p className="text-yt-textSec text-xs">Unlock all features</p>
-                </div>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
