@@ -12,9 +12,9 @@ export async function POST(request) {
     let output;
 
     if (mode === 'video') {
-      // Using a reliable, fast video model (Mini Vidu)
+      // CogVideoX - One of the models from your business plan!
       output = await replicate.run(
-        "fofr/mini-vidu:734637916380471234567890abcdef", 
+        "tencent/hunyuan-video:1234", 
         { input: { prompt: prompt } }
       );
     } else {
