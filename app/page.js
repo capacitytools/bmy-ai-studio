@@ -40,20 +40,18 @@ export default function HomePage() {
 
       {/* Main Content */}
       <main className="pt-16 px-4">
-        {/* Category Chips */}
         <div className="flex gap-3 overflow-x-auto pb-4 mb-4 no-scrollbar">
           {["All", "Images", "Video", "Audio", "Writing", "Tools"].map((cat, i) => (
             <button 
               key={cat} 
               className={`whitespace-nowrap px-4 py-2 rounded-lg text-sm font-medium ${
                 i === 0 ? "bg-white text-black" : "bg-yt-surface text-yt-text"
-              }`}            >
-              {cat}
+              }`}
+            >              {cat}
             </button>
           ))}
         </div>
 
-        {/* Tools Grid */}
         <div className="grid grid-cols-2 gap-4">
           {tools.map((tool, i) => {
             const IconComponent = tool.icon;
@@ -96,10 +94,16 @@ export default function HomePage() {
         </Link>
       </nav>
 
-      {/* Dropdown Menu (Bottom Sheet) */}      {showMenu && (
-        <div className="fixed inset-0 z-50">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowMenu(false)}></div>
-          <div className="absolute bottom-0 left-0 right-0 bg-yt-surface rounded-t-3xl p-6 animate-slide-up">
+      {/* Dropdown Menu Modal */}
+      {showMenu && (
+        <div className="fixed inset-0 z-[60] flex items-end justify-center">          {/* Dark Background Overlay */}
+          <div 
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm" 
+            onClick={() => setShowMenu(false)}
+          ></div>
+          
+          {/* Menu Content */}
+          <div className="relative w-full bg-yt-surface rounded-t-3xl p-6 border-t border-yt-border">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-yt-text text-xl font-bold">Menu</h2>
               <button 
@@ -110,7 +114,7 @@ export default function HomePage() {
               </button>
             </div>
             
-            <div className="space-y-2">
+            <div className="space-y-3">
               <Link 
                 href="/library" 
                 className="flex items-center gap-4 p-4 bg-yt-bg rounded-xl active:bg-yt-hover transition"
@@ -141,12 +145,12 @@ export default function HomePage() {
                 onClick={() => setShowMenu(false)}
               >
                 <User className="w-6 h-6 text-yt-text" />
-                <div>
-                  <p className="text-yt-text font-medium">Profile</p>
+                <div>                  <p className="text-yt-text font-medium">Profile</p>
                   <p className="text-yt-textSec text-xs">Account settings</p>
                 </div>
-              </Link>              
-              <div className="border-t border-yt-border my-4"></div>
+              </Link>
+              
+              <div className="border-t border-yt-border my-2"></div>
               
               <button className="w-full flex items-center gap-4 p-4 bg-yt-bg rounded-xl active:bg-yt-hover transition text-left">
                 <Sparkles className="w-6 h-6 text-yellow-500" />
