@@ -1,6 +1,6 @@
+import Link from "next/link";
 import { Search, Mic, Sparkles, Home, PlusSquare, Library, User } from "lucide-react";
 
-// Mock data for the video cards
 const tools = [
   { title: "Cinematic Text to Video", badge: "Free", color: "from-blue-900 to-purple-900" },
   { title: "Ultra-Realistic Voice Clone", badge: "Pro", color: "from-red-900 to-orange-900" },
@@ -28,7 +28,6 @@ export default function HomePage() {
 
       {/* MAIN CONTENT */}
       <main className="pt-16 px-4">
-        {/* Category Chips */}
         <div className="flex gap-3 overflow-x-auto pb-4 mb-4 no-scrollbar">
           {["All", "Text to Video", "Voice Clone", "Scripts"].map((cat, i) => (
             <button key={cat} className={`whitespace-nowrap px-4 py-2 rounded-lg text-sm font-medium ${i === 0 ? "bg-white text-black" : "bg-yt-surface text-yt-text"}`}>
@@ -37,7 +36,6 @@ export default function HomePage() {
           ))}
         </div>
 
-        {/* Video/Tool Grid */}
         <div className="grid grid-cols-2 gap-4">
           {tools.map((tool, i) => (
             <div key={i} className="flex flex-col gap-2">
@@ -52,19 +50,24 @@ export default function HomePage() {
         </div>
       </main>
 
-      {/* BOTTOM NAVIGATION */}
+      {/* BOTTOM NAVIGATION (NOW WITH REAL LINKS!) */}
       <nav className="fixed bottom-0 left-0 right-0 h-16 bg-yt-bg border-t border-yt-border flex items-center justify-around z-50">
-        {[
-          { icon: Home, label: "Home" },
-          { icon: PlusSquare, label: "Create" },
-          { icon: Library, label: "Library" },
-          { icon: User, label: "Profile" },
-        ].map((item) => (
-          <button key={item.label} className="flex flex-col items-center gap-1 text-yt-textSec">
-            <item.icon className="w-6 h-6" />
-            <span className="text-[10px]">{item.label}</span>
-          </button>
-        ))}
+        <Link href="/" className="flex flex-col items-center gap-1 text-yt-text">
+          <Home className="w-6 h-6" />
+          <span className="text-[10px]">Home</span>
+        </Link>
+        <Link href="/create" className="flex flex-col items-center gap-1 text-yt-textSec">
+          <PlusSquare className="w-6 h-6" />
+          <span className="text-[10px]">Create</span>
+        </Link>
+        <Link href="/library" className="flex flex-col items-center gap-1 text-yt-textSec">
+          <Library className="w-6 h-6" />
+          <span className="text-[10px]">Library</span>
+        </Link>
+        <Link href="/profile" className="flex flex-col items-center gap-1 text-yt-textSec">
+          <User className="w-6 h-6" />
+          <span className="text-[10px]">Profile</span>
+        </Link>
       </nav>
 
     </div>
