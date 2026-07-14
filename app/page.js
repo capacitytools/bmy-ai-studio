@@ -51,8 +51,8 @@ export default function HomePage() {
             const IconComponent = tool.icon;
             return (
               <Link key={i} href={tool.link} className="flex flex-col gap-2 active:scale-95 transition-transform">
-                <div className={`w-full aspect-[9/16] rounded-xl bg-gradient-to-br ${tool.color} flex flex-col items-center justify-center relative p-4`}>
-                  <IconComponent className="w-8 h-8 text-white/80 mb-2" />
+                <div className={`w-full aspect-[9/16] rounded-xl bg-gradient-to-br ${tool.color} flex flex-col items-center justify-center relative p-3`}>
+                  <IconComponent className="w-6 h-6 text-white/80 mb-1" />
                   <span className="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] px-1.5 py-0.5 rounded">
                     {tool.badge}
                   </span>
