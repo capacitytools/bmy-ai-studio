@@ -76,3 +76,7 @@ export default function HomePage() {
           <span className="text-[10px]">Profile</span>
         </Link>
       </nav>
+
+    </div>
+  );
+}
