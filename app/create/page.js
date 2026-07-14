@@ -14,15 +14,28 @@ export default function CreatePage() {
     if (!prompt) return;
     setIsGenerating(true);
     
-    // Simulate AI thinking for 2 seconds
     setTimeout(() => {
-      // 1. Create the video data
+      // 1. Create a special AI link based on your text prompt
+      const aiImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=512&height=512&nologo=true&seed=${Date.now()}`;
+
+      // 2. Create the video data with the real AI image
       const newVideo = {
-        id: Date.now(), // unique ID
+        id: Date.now(),
         prompt: prompt,
         style: selectedStyle,
-        date: new Date().toLocaleDateString()
+        date: new Date().toLocaleDateString(),
+        thumbnail: aiImageUrl // <--- We are saving the real AI image here!
       };
+      
+      // 3. Save it to the phone's memory
+      const oldVideos = JSON.parse(localStorage.getItem('bmy_videos') || '[]');
+      oldVideos.unshift(newVideo);
+      localStorage.setItem('bmy_videos', JSON.stringify(oldVideos));
+      
+      // 4. Send the user to the Library
+      window.location.href = '/library';
+    }, 3000); // Takes 3 seconds to generate
+  };
       
       // 2. Save it to the phone's memory (localStorage)
       const oldVideos = JSON.parse(localStorage.getItem('bmy_videos') || '[]');
