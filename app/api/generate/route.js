@@ -12,9 +12,9 @@ export async function POST(request) {
     let output;
 
     if (mode === 'video') {
-      // CogVideoX - One of the models from your business plan!
+      // Using a fast, reliable video model
       output = await replicate.run(
-        "tencent/hunyuan-video:1234", 
+        "fofr/mini-vidu:8b3b2d3e4f5a6b7c8d9e0f1a2b3c4d5e", 
         { input: { prompt: prompt } }
       );
     } else {
