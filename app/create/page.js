@@ -14,11 +14,24 @@ export default function CreatePage() {
     if (!prompt) return;
     setIsGenerating(true);
     
-    // This simulates the AI thinking for 3 seconds
+    // Simulate AI thinking for 2 seconds
     setTimeout(() => {
-      setIsGenerating(false);
-      alert("Video generated! (We will connect the real AI next!)");
-    }, 3000);
+      // 1. Create the video data
+      const newVideo = {
+        id: Date.now(), // unique ID
+        prompt: prompt,
+        style: selectedStyle,
+        date: new Date().toLocaleDateString()
+      };
+      
+      // 2. Save it to the phone's memory (localStorage)
+      const oldVideos = JSON.parse(localStorage.getItem('bmy_videos') || '[]');
+      oldVideos.unshift(newVideo); // Add new video to the top
+      localStorage.setItem('bmy_videos', JSON.stringify(oldVideos));
+      
+      // 3. Send the user to the Library to see it!
+      window.location.href = '/library';
+    }, 2000);
   };
 
   return (
