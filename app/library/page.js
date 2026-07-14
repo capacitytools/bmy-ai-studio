@@ -7,13 +7,11 @@ import Link from "next/link";
 export default function LibraryPage() {
   const [videos, setVideos] = useState([]);
 
-  // This runs when the page loads to grab your saved videos
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem('bmy_videos') || '[]');
     setVideos(saved);
   }, []);
 
-  // Function to delete a video
   const deleteVideo = (id) => {
     const updated = videos.filter(v => v.id !== id);
     setVideos(updated);
@@ -27,7 +25,6 @@ export default function LibraryPage() {
       </h1>
 
       {videos.length === 0 ? (
-        // Empty State
         <div className="flex flex-col items-center justify-center mt-20 text-center">
           <div className="w-20 h-20 bg-yt-surface rounded-full flex items-center justify-center mb-4">
             <Sparkles className="w-10 h-10 text-yt-textSec" />
@@ -39,19 +36,23 @@ export default function LibraryPage() {
           </Link>
         </div>
       ) : (
-        // Video List
         <div className="flex flex-col gap-4">
           {videos.map((video) => (
             <div key={video.id} className="bg-yt-surface rounded-xl p-4 border border-yt-border">
-              {/* Video "Player" Area */}
               {/* The Real AI Generated Image */}
               <div className="w-full aspect-video bg-yt-bg rounded-lg overflow-hidden relative mb-3">
-                <img 
-                  src={video.thumbnail} 
-                  alt={video.prompt}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                {video.thumbnail ? (
+                  <img 
+                    src={video.thumbnail} 
+                    alt={video.prompt}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-purple-900 to-blue-900 flex items-center justify-center">
+                    <Play className="w-12 h-12 text-white/50" />
+                  </div>
+                )}
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
                   <div className="w-12 h-12 bg-black/60 rounded-full flex items-center justify-center backdrop-blur-sm">
                     <Play className="w-5 h-5 text-white ml-1" fill="white" />
                   </div>
@@ -60,12 +61,7 @@ export default function LibraryPage() {
                   {video.style}
                 </span>
               </div>
-                <span className="absolute top-2 right-2 bg-yt-red text-white text-[10px] px-2 py-0.5 rounded font-bold uppercase">
-                  {video.style}
-                </span>
-              </div>
 
-              {/* Video Details */}
               <p className="text-yt-text text-sm font-medium line-clamp-2 mb-1">
                 {video.prompt}
               </p>
