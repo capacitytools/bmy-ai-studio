@@ -1,13 +1,19 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Download, ArrowLeft, Share2 } from "lucide-react";
 import Link from "next/link";
 
 export default function ViewerPage() {
-  // Get the image URL and prompt from the link we clicked
-  const params = new URLSearchParams(window.location.search);
-  const imageUrl = params.get('url');
-  const prompt = params.get('prompt');
+  const [imageUrl, setImageUrl] = useState(null);
+  const [prompt, setPrompt] = useState("");
+
+  useEffect(() => {
+    // This runs only in the browser
+    const params = new URLSearchParams(window.location.search);
+    setImageUrl(params.get('url'));
+    setPrompt(params.get('prompt') || '');
+  }, []);
 
   const downloadImage = async () => {
     if (!imageUrl) return;
@@ -27,6 +33,14 @@ export default function ViewerPage() {
     }
   };
 
+  if (!imageUrl) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <p className="text-white/50">Loading...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-black flex flex-col">
       {/* Top Bar */}
@@ -42,15 +56,11 @@ export default function ViewerPage() {
 
       {/* Full Screen Image */}
       <main className="flex-1 flex items-center justify-center pt-14 pb-20 px-2">
-        {imageUrl ? (
-          <img 
-            src={imageUrl} 
-            alt={prompt} 
-            className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl"
-          />
-        ) : (
-          <p className="text-white/50">No image found</p>
-        )}
+        <img 
+          src={imageUrl} 
+          alt={prompt} 
+          className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl"
+        />
       </main>
 
       {/* Bottom Info */}
