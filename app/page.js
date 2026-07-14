@@ -1,11 +1,16 @@
 import Link from "next/link";
-import { Search, Mic, Sparkles, Home, PlusSquare, Library, User } from "lucide-react";
+import { Search, Mic, Sparkles, Home, PlusSquare, Library, User, Video, Mic2, FileText, Captions, Image, Music, Wand2, Palette } from "lucide-react";
 
+// Updated tools data with specific icons
 const tools = [
-  { title: "Cinematic Text to Video", badge: "Free", color: "from-blue-900 to-purple-900" },
-  { title: "Ultra-Realistic Voice Clone", badge: "Pro", color: "from-red-900 to-orange-900" },
-  { title: "AI YouTube Script Writer", badge: "Free", color: "from-green-900 to-teal-900" },
-  { title: "Auto Subtitle Generator", badge: "Free", color: "from-yellow-900 to-red-900" },
+  { title: "Cinematic Text to Video", badge: "Free", color: "from-blue-900 to-purple-900", icon: Video },
+  { title: "Ultra-Realistic Voice Clone", badge: "Pro", color: "from-red-900 to-orange-900", icon: Mic2 },
+  { title: "AI YouTube Script Writer", badge: "Free", color: "from-green-900 to-teal-900", icon: FileText },
+  { title: "Auto Subtitle Generator", badge: "Free", color: "from-yellow-900 to-red-900", icon: Captions },
+  { title: "AI Thumbnail Maker", badge: "Free", color: "from-pink-900 to-rose-900", icon: Image },
+  { title: "Background Music AI", badge: "Creator", color: "from-indigo-900 to-blue-900", icon: Music },
+  { title: "AI Prompt Enhancer", badge: "Free", color: "from-cyan-900 to-blue-900", icon: Wand2 },
+  { title: "AI Image Generator", badge: "Free", color: "from-violet-900 to-purple-900", icon: Palette },
 ];
 
 export default function HomePage() {
@@ -29,7 +34,7 @@ export default function HomePage() {
       {/* MAIN CONTENT */}
       <main className="pt-16 px-4">
         <div className="flex gap-3 overflow-x-auto pb-4 mb-4 no-scrollbar">
-          {["All", "Text to Video", "Voice Clone", "Scripts"].map((cat, i) => (
+          {["All", "Text to Video", "Voice Clone", "Scripts", "Images"].map((cat, i) => (
             <button key={cat} className={`whitespace-nowrap px-4 py-2 rounded-lg text-sm font-medium ${i === 0 ? "bg-white text-black" : "bg-yt-surface text-yt-text"}`}>
               {cat}
             </button>
@@ -37,20 +42,23 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          {tools.map((tool, i) => (
-            <div key={i} className="flex flex-col gap-2">
-              <div className={`w-full aspect-[9/16] rounded-xl bg-gradient-to-br ${tool.color} flex items-center justify-center relative`}>
-                <Sparkles className="w-10 h-10 text-white/40" />
-                <span className="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] px-1.5 py-0.5 rounded">{tool.badge}</span>
+          {tools.map((tool, i) => {
+            const IconComponent = tool.icon;
+            return (
+              <div key={i} className="flex flex-col gap-2">
+                <div className={`w-full aspect-[9/16] rounded-xl bg-gradient-to-br ${tool.color} flex flex-col items-center justify-center relative p-4`}>
+                  <IconComponent className="w-12 h-12 text-white/80 mb-3" />
+                  <span className="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] px-1.5 py-0.5 rounded">{tool.badge}</span>
+                </div>
+                <h3 className="text-yt-text text-sm font-semibold line-clamp-2">{tool.title}</h3>
+                <p className="text-yt-textSec text-xs">BMY Studio</p>
               </div>
-              <h3 className="text-yt-text text-sm font-semibold line-clamp-2">{tool.title}</h3>
-              <p className="text-yt-textSec text-xs">BMY Studio</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </main>
 
-      {/* BOTTOM NAVIGATION (NOW WITH REAL LINKS!) */}
+      {/* BOTTOM NAVIGATION */}
       <nav className="fixed bottom-0 left-0 right-0 h-16 bg-yt-bg border-t border-yt-border flex items-center justify-around z-50">
         <Link href="/" className="flex flex-col items-center gap-1 text-yt-text">
           <Home className="w-6 h-6" />
