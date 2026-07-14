@@ -15,10 +15,11 @@ const tools = [
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-yt-bg pb-20">
+      {/* Top Bar */}
       <header className="fixed top-0 left-0 right-0 h-14 bg-yt-bg flex items-center justify-between px-4 z-50 border-b border-yt-border">
         <div className="flex items-center gap-2">
           <div className="bg-yt-red text-white p-1.5 rounded-lg">
-            <Sparkles className="w-5 h-5" />
+            <Sparkles className="w-4 h-4" />
           </div>
           <span className="text-lg font-bold text-yt-text">BMY AI</span>
         </div>
@@ -32,6 +33,7 @@ export default function HomePage() {
         </div>
       </header>
 
+      {/* Main Content */}
       <main className="pt-16 px-4">
         <div className="flex gap-3 overflow-x-auto pb-4 mb-4 no-scrollbar">
           {["All", "Images", "Video", "Audio", "Writing", "Tools"].map((cat, i) => (
@@ -46,13 +48,14 @@ export default function HomePage() {
           ))}
         </div>
 
+        {/* Tools Grid */}
         <div className="grid grid-cols-2 gap-4">
           {tools.map((tool, i) => {
             const IconComponent = tool.icon;
             return (
               <Link key={i} href={tool.link} className="flex flex-col gap-2 active:scale-95 transition-transform">
-                <div className={`w-full aspect-[9/16] rounded-xl bg-gradient-to-br ${tool.color} flex flex-col items-center justify-center relative p-3`}>
-                  <IconComponent className="w-6 h-6 text-white/80 mb-1" />
+                <div className={`w-full aspect-[3/4] rounded-xl bg-gradient-to-br ${tool.color} flex flex-col items-center justify-center relative p-2`}>
+                  <IconComponent className="w-5 h-5 text-white/90 mb-1" />
                   <span className="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] px-1.5 py-0.5 rounded">
                     {tool.badge}
                   </span>
@@ -65,21 +68,22 @@ export default function HomePage() {
         </div>
       </main>
 
+      {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 h-16 bg-yt-bg border-t border-yt-border flex items-center justify-around z-50">
         <Link href="/" className="flex flex-col items-center gap-1 text-yt-text">
-          <Home className="w-6 h-6" />
+          <Home className="w-5 h-5" />
           <span className="text-[10px]">Home</span>
         </Link>
         <Link href="/create" className="flex flex-col items-center gap-1 text-yt-textSec">
-          <PlusSquare className="w-6 h-6" />
+          <PlusSquare className="w-5 h-5" />
           <span className="text-[10px]">Create</span>
         </Link>
         <Link href="/library" className="flex flex-col items-center gap-1 text-yt-textSec">
-          <Library className="w-6 h-6" />
+          <Library className="w-5 h-5" />
           <span className="text-[10px]">Library</span>
         </Link>
         <Link href="/profile" className="flex flex-col items-center gap-1 text-yt-textSec">
-          <User className="w-6 h-6" />
+          <User className="w-5 h-5" />
           <span className="text-[10px]">Profile</span>
         </Link>
       </nav>
