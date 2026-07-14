@@ -14,28 +14,6 @@ export default function LibraryPage() {
     }
   }, []);
 
-  const downloadImage = async (imageUrl, prompt) => {
-    try {
-      // Fetch the image
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
-      
-      // Create a download link
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `bmy-ai-${prompt.slice(0, 30).replace(/\s+/g, '-')}.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Download failed:', error);
-      // Fallback: open image in new tab
-      window.open(imageUrl, '_blank');
-    }
-  };
-
   const deleteImage = (id) => {
     const updated = videos.filter(v => v.id !== id);
     setVideos(updated);
@@ -47,7 +25,8 @@ export default function LibraryPage() {
       case 'portrait': return 'aspect-[3/4]';
       case 'landscape': return 'aspect-video';
       default: return 'aspect-square';
-    }  };
+    }
+  };
 
   return (
     <div className="min-h-screen bg-yt-bg pb-24 pt-16 px-4">
@@ -57,8 +36,7 @@ export default function LibraryPage() {
         <div className="text-center mt-20">
           <Sparkles className="w-16 h-16 text-yt-textSec mx-auto mb-4" />
           <p className="text-yt-text text-xl font-bold mb-2">No images yet</p>
-          <p className="text-yt-textSec mb-6">Create your first AI image to see it here!</p>
-          <Link href="/create" className="bg-yt-red text-white font-bold px-6 py-3 rounded-full active:scale-95 transition">
+          <Link href="/create" className="bg-yt-red text-white font-bold px-6 py-3 rounded-full">
             Create an Image
           </Link>
         </div>
@@ -66,42 +44,32 @@ export default function LibraryPage() {
         <div className="space-y-4">
           {videos.map((v) => (
             <div key={v.id} className="bg-yt-surface rounded-xl p-4 border border-yt-border">
-              <div className={`w-full ${getAspectRatioClass(v.ratio)} bg-gradient-to-br from-purple-900 to-blue-900 rounded-lg mb-3 overflow-hidden relative`}>
-                {v.thumbnail ? (
-                  <img src={v.thumbnail} alt={v.prompt} className="w-full h-full object-cover" />
-                ) : null}
-                
-                {/* Download Button Overlay */}
-                <button
-                  onClick={() => downloadImage(v.thumbnail, v.prompt)}
-                  className="absolute top-2 left-2 bg-black/70 backdrop-blur-sm p-2 rounded-lg text-white active:scale-90 transition"
-                >
-                  <Download className="w-5 h-5" />
-                </button>
-                
-                {/* Delete Button */}
-                <button
-                  onClick={() => deleteImage(v.id)}
-                  className="absolute top-2 right-2 bg-red-600/80 backdrop-blur-sm p-2 rounded-lg text-white active:scale-90 transition"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
+              
+              {/* Clickable Image Area */}
+              <Link 
+                href={`/viewer?url=${encodeURIComponent(v.thumbnail)}&prompt=${encodeURIComponent(v.prompt)}`}
+                className="block"
+              >
+                <div className={`w-full ${getAspectRatioClass(v.ratio)} bg-gradient-to-br from-purple-900 to-blue-900 rounded-lg mb-3 overflow-hidden relative`}>
+                  {v.thumbnail ? (
+                    <img src={v.thumbnail} alt={v.prompt} className="w-full h-full object-cover" />
+                  ) : null}
+                  <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
+                    <span className="text-white/80 text-sm font-bold bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm">Tap to View</span>
+                  </div>
+                </div>
+              </Link>
               
               <p className="text-yt-text text-sm font-medium line-clamp-2">{v.prompt}</p>
               <div className="flex items-center justify-between mt-2">
                 <span className="text-yt-textSec text-xs">{v.date}</span>
-                <div className="flex gap-2">
-                  <span className="bg-yt-red/20 text-yt-red text-[10px] px-2 py-0.5 rounded uppercase">
-                    {v.ratio || 'square'}
-                  </span>
-                  <button
-                    onClick={() => downloadImage(v.thumbnail, v.prompt)}                    className="text-yt-textSec hover:text-yt-text text-xs flex items-center gap-1"
-                  >
-                    <Download className="w-3 h-3" />
-                    Download
-                  </button>
-                </div>
+                <button
+                  onClick={() => deleteImage(v.id)}
+                  className="text-red-500 text-xs flex items-center gap-1 px-2 py-1 bg-red-500/10 rounded"
+                >
+                  <Trash2 className="w-3 h-3" />
+                  Delete
+                </button>
               </div>
             </div>
           ))}
