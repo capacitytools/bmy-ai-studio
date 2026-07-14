@@ -44,10 +44,22 @@ export default function LibraryPage() {
           {videos.map((video) => (
             <div key={video.id} className="bg-yt-surface rounded-xl p-4 border border-yt-border">
               {/* Video "Player" Area */}
-              <div className="w-full aspect-video bg-gradient-to-br from-purple-900 to-blue-900 rounded-lg flex items-center justify-center relative mb-3">
-                <div className="w-14 h-14 bg-black/50 rounded-full flex items-center justify-center backdrop-blur-sm">
-                  <Play className="w-6 h-6 text-white ml-1" fill="white" />
+              {/* The Real AI Generated Image */}
+              <div className="w-full aspect-video bg-yt-bg rounded-lg overflow-hidden relative mb-3">
+                <img 
+                  src={video.thumbnail} 
+                  alt={video.prompt}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                  <div className="w-12 h-12 bg-black/60 rounded-full flex items-center justify-center backdrop-blur-sm">
+                    <Play className="w-5 h-5 text-white ml-1" fill="white" />
+                  </div>
                 </div>
+                <span className="absolute top-2 right-2 bg-yt-red text-white text-[10px] px-2 py-0.5 rounded font-bold uppercase">
+                  {video.style}
+                </span>
+              </div>
                 <span className="absolute top-2 right-2 bg-yt-red text-white text-[10px] px-2 py-0.5 rounded font-bold uppercase">
                   {video.style}
                 </span>
