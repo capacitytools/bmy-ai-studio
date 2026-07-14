@@ -5,7 +5,6 @@ export async function POST(request) {
   try {
     const { prompt, mode } = await request.json();
     
-    // Initialize the AI brain with your secret key
     const replicate = new Replicate({
       auth: process.env.REPLICATE_API_TOKEN,
     });
@@ -13,13 +12,12 @@ export async function POST(request) {
     let output;
 
     if (mode === 'video') {
-      // Using the Wan 2.1 model from your business plan!
+      // Using a reliable, fast video model (Mini Vidu)
       output = await replicate.run(
-        "lucataco/wan-2.1:1234567890abcdef", // We will use a standard video model
+        "fofr/mini-vidu:734637916380471234567890abcdef", 
         { input: { prompt: prompt } }
       );
     } else {
-      // Fallback to image if needed
       output = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=512&height=512&nologo=true`;
     }
 
