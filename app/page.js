@@ -3,7 +3,7 @@ import { Search, Mic, Sparkles, Home, PlusSquare, Library, User, Video, Mic2, Fi
 
 const tools = [
   { title: "AI Image Generator", badge: "Free", color: "from-blue-900 to-purple-900", icon: Image, link: "/create" },
-  { title: "Text to Video", badge: "Coming Soon", color: "from-red-900 to-orange-900", icon: Video, link: "/create" },
+  { title: "Text to Video", badge: "Free", color: "from-red-900 to-orange-900", icon: Video, link: "/create-video" },
   { title: "Voice Clone", badge: "Pro", color: "from-green-900 to-teal-900", icon: Mic2, link: "/create" },
   { title: "Script Writer", badge: "Free", color: "from-yellow-900 to-red-900", icon: FileText, link: "/create" },
   { title: "Subtitle Generator", badge: "Free", color: "from-pink-900 to-rose-900", icon: Captions, link: "/create" },
