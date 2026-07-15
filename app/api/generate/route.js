@@ -5,7 +5,8 @@ export async function POST(request) {
   try {
     const { prompt, mode } = await request.json();
     
-    // Initialize the AI brain
+    console.log('Received request:', { prompt, mode });
+    
     const replicate = new Replicate({
       auth: process.env.REPLICATE_API_TOKEN,
     });
@@ -13,20 +14,32 @@ export async function POST(request) {
     let output;
 
     if (mode === 'video') {
-      // Using a reliable video model (Mini Vidu)
-      // Note: If this specific model ID changes, we can update it later.
+      // Using Zeroscope - a reliable free video model
+      console.log('Generating video...');
       output = await replicate.run(
-        "fofr/mini-vidu:8b3b2d3e4f5a6b7c8d9e0f1a2b3c4d5e", 
-        { input: { prompt: prompt } }
+        "anotherjesse/zeroscope-v2-xl:9f747673945c62801b13b84701c783929c0ee784e4748ec089380cd6e31f3b1f",
+        {
+          input: {
+            prompt: prompt,
+            num_frames: 24,
+            fps: 8,
+            width: 576,
+            height: 320
+          }
+        }
       );
+      console.log('Video generated:', output);
     } else {
-      // Fallback to free image API
+      console.log('Generating image...');
       output = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=512&height=512&nologo=true`;
     }
 
-    return NextResponse.json({ url: output });
+    return NextResponse.json({ url: output, mode: mode });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('Generation error:', error);
+    return NextResponse.json({ 
+      error: error.message,
+      mode: 'video' 
+    }, { status: 500 });
   }
 }
