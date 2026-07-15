@@ -12,21 +12,16 @@ export async function POST(request) {
     let output;
 
     if (mode === 'video') {
-      // Using a verified working video model
+      // Using a simpler, working video model
       output = await replicate.run(
-        "lucataco/zeroscope:9f747673945c62801b13b84701c783929c0ee784e4748ec089380cd6e31f3b1f",
+        "fofr/mini-vidu:4061b6876984e67092d85ce0f2d8e8d6a1c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2",
         {
           input: {
-            prompt: prompt,
-            num_frames: 24,
-            fps: 8,
-            width: 576,
-            height: 320
+            prompt: prompt
           }
         }
       );
     } else {
-      // Image generation (working)
       output = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=512&height=512&nologo=true`;
     }
 
